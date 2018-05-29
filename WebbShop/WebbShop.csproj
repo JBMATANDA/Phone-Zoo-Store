@@ -46,6 +46,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.7\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
@@ -116,12 +122,6 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
     </Reference>
@@ -190,20 +190,67 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\CheckoutController.cs" />
+    <Compile Include="Controllers\OrderDetailsController.cs" />
+    <Compile Include="Controllers\ProductsController.cs" />
+    <Compile Include="Controllers\SummarizeOrderController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DataContexts\CartContext.cs" />
+    <Compile Include="Models\DataContexts\Cart\CartMigrations\201802181936197_InitialCreate.cs" />
+    <Compile Include="Models\DataContexts\Cart\CartMigrations\201802181936197_InitialCreate.Designer.cs">
+      <DependentUpon>201802181936197_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DataContexts\Cart\CartMigrations\201802231220285_Initial.cs" />
+    <Compile Include="Models\DataContexts\Cart\CartMigrations\201802231220285_Initial.Designer.cs">
+      <DependentUpon>201802231220285_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DataContexts\Cart\CartMigrations\Configuration.cs" />
+    <Compile Include="Models\DataContexts\OrderDetailsContext.cs" />
+    <Compile Include="Models\DataContexts\OrderDetailsMigrations\201803041953201_Initial.cs" />
+    <Compile Include="Models\DataContexts\OrderDetailsMigrations\201803041953201_Initial.Designer.cs">
+      <DependentUpon>201803041953201_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DataContexts\OrderDetailsMigrations\Configuration.cs" />
+    <Compile Include="Models\DataContexts\OrderInfo\OrderInfoMigrations\201802140036229_Initial.cs" />
+    <Compile Include="Models\DataContexts\OrderInfo\OrderInfoMigrations\201802140036229_Initial.Designer.cs">
+      <DependentUpon>201802140036229_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DataContexts\OrderInfo\OrderInfoMigrations\Configuration.cs" />
+    <Compile Include="Models\DataContexts\Product\ProductMigrations\201802140039210_Initial.cs" />
+    <Compile Include="Models\DataContexts\Product\ProductMigrations\201802140039210_Initial.Designer.cs">
+      <DependentUpon>201802140039210_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DataContexts\Product\ProductMigrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\DataContexts\OrderInfo\OrderInfoContext.cs" />
+    <Compile Include="Models\DataContexts\Product\ProductContext.cs" />
+    <Compile Include="Models\Entities\CartItem.cs" />
+    <Compile Include="Models\Entities\OrderInfo.cs" />
+    <Compile Include="Models\Entities\Product.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Entities\OrderDetails.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\aboutus.jpg" />
+    <Content Include="Content\Images\Huwaei.jpg" />
+    <Content Include="Content\Images\Iphone 7%28rosa%29.jpg" />
+    <Content Include="Content\Images\Iphone X.jpg" />
+    <Content Include="Content\Images\IPhoneBanner.jpg" />
+    <Content Include="Content\Images\LG V30.jpg" />
+    <Content Include="Content\Images\Nokia 3310.png" />
+    <Content Include="Content\Images\Samsung S8.jpg" />
+    <Content Include="Content\Images\success.png" />
+    <Content Include="Content\lumen.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -258,6 +305,25 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Products\Create.cshtml" />
+    <Content Include="Views\Products\Delete.cshtml" />
+    <Content Include="Views\Products\Details.cshtml" />
+    <Content Include="Views\Products\Edit.cshtml" />
+    <Content Include="Views\Products\Products.cshtml" />
+    <Content Include="Views\Products\Cart.cshtml" />
+    <Content Include="Views\Checkout\Create.cshtml" />
+    <Content Include="Views\Shared\_ProductSuggestion.cshtml" />
+    <Content Include="Views\Home\ProductSuggestion.cshtml" />
+    <Content Include="Views\Home\_ProductSuggestion.cshtml" />
+    <Content Include="Views\Checkout\Checkout.cshtml" />
+    <Content Include="Views\Cart\ShoppingCart.cshtml" />
+    <Content Include="Views\SummarizeOrder\SummerizeOrder.cshtml" />
+    <Content Include="Views\Checkout\CheckoutComplete.cshtml" />
+    <Content Include="Views\OrderDetails\Create.cshtml" />
+    <Content Include="Views\OrderDetails\Delete.cshtml" />
+    <Content Include="Views\OrderDetails\Details.cshtml" />
+    <Content Include="Views\OrderDetails\Edit.cshtml" />
+    <Content Include="Views\OrderDetails\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -274,6 +340,23 @@
   <ItemGroup>
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Models\DataContexts\Cart\CartMigrations\201802181936197_InitialCreate.resx">
+      <DependentUpon>201802181936197_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Models\DataContexts\Cart\CartMigrations\201802231220285_Initial.resx">
+      <DependentUpon>201802231220285_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Models\DataContexts\OrderDetailsMigrations\201803041953201_Initial.resx">
+      <DependentUpon>201803041953201_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Models\DataContexts\OrderInfo\OrderInfoMigrations\201802140036229_Initial.resx">
+      <DependentUpon>201802140036229_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Models\DataContexts\Product\ProductMigrations\201802140039210_Initial.resx">
+      <DependentUpon>201802140039210_Initial.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

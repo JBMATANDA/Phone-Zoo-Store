@@ -1,0 +1,61 @@
+﻿@using WebbShop.Models.Entities;
+
+<!-- Add icon library -->
+<link rel="stylesheet" href="http://icono-49d6.kxcdn.com/icono.min.css">
+
+@* Dropdown button, with a foreach loop in razor syntax that iterates through the cartItem list and adds the item
+   to the dropdown content, the total and the checkout button is kept outside the loop...for obvious reasons.  
+   <button class="btn btn-primary btn-md"><span class="icono-cart"></span></button>*@
+
+<div class="dropdown">
+    <button class="dropbtn"><span class="icono-cart"></span></button>
+    <div class="dropdown-content">
+
+        @{
+            double total = 0.0;
+            if (Session["Cart"] != null)
+            {
+                List<CartItem> cartList = (List<CartItem>) Session["Cart"];
+                foreach (var item in cartList)
+                {
+                    double withTax = @item.Product.Price * 1.25;
+                    total += withTax * @item.Quantity;
+
+
+                    <strong>
+                        @Html.ActionLink(@item.Product.ArticleName
+                            , "Details", "Products", new {id = @item.Product.ArticleID}, null)
+                    </strong>
+                    <p style="margin-left: 15px">
+                        Pris/st: @withTax.ToString("C") Antal: @item.Quantity
+                    </p>
+
+
+                }
+            }
+        }
+        <br/>
+        <p align="right" style="margin-right: 5px">
+        <strong>Total Price: @total.ToString("C")  </strong> 
+
+            
+        @{
+            List<CartItem> cart = (List<CartItem>)Session["Cart"];
+            if (cart != null)
+            {
+                if (cart.Any())
+                {
+                    <a type="button" class="btn btn-primary btn-md" href="@Url.Action("Cart", "Products")">Checka out</a>
+                }
+            }
+        }
+    </div>
+</div>
+
+
+
+
+
+
+
+

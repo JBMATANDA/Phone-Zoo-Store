@@ -1,0 +1,93 @@
+﻿@using WebbShop.Models.Entities
+@using System.Collections.Generic
+@model IEnumerable<WebbShop.Models.Entities.Product>
+
+@{
+    ViewBag.Title = "Products";
+}
+
+<h2>SmartPhones</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ArticleName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Image)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Stock)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink(item.ArticleName, "Details", new { id = item.ArticleID })
+        </td>
+        <td>
+            @{ 
+                string filePath = "/Content/Images/";
+                string fileName = item.Image;
+                string completePath = String.Concat(filePath,fileName);
+            }
+            <img src="@Url.Content(completePath)" alt="Picture" width="250" height="250" />
+            @Url.
+        </td>
+        <td>
+            @{
+                String description = item.Description;
+                description = description.Substring(0, 50);
+                description = String.Concat(description, "...");
+            }
+            @description
+        </td>
+        <td>
+            @{
+                double taxIncluded = item.Price * 1.25;
+                string totalPrice = taxIncluded.ToString("C");
+                <label>@totalPrice</label>
+            }
+        </td>
+        <td>
+           @item.Stock
+            @{
+                
+        
+        if (item.Stock >= 5)
+        {
+            <h7 style="color: green">In Stock</h7>
+        }
+        else if (item.Stock < 5 && item.Stock > 0)
+        {
+            <h7 style="color: orange">Few In Stock</h7>
+        }
+        else if (item.Stock == 0)
+        {
+            <h7 style="color: red">Out of Stock </h7>
+        }
+        
+        
+            }
+        </td>
+        <td>
+            @if (item.Stock > 0)
+            {
+                @Html.ActionLink("Add To Cart", "AddToCart", "Products", new {id = item.ArticleID},null)
+                
+            }
+            
+        </td>
+    </tr>
+   
+}
+</table>

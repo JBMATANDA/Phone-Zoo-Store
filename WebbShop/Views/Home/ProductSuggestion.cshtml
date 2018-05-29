@@ -1,0 +1,41 @@
+﻿@model IEnumerable<WebbShop.Models.Entities.Product>
+@{
+    ViewBag.Title = "Product Suggestion";
+}
+
+<h2> @ViewBag.Title </h2>
+
+<hr /> 
+
+<div id="productSuggestion">
+    <div id="productSuggestionContainer">
+        @{
+            int i = 0;
+
+            foreach (var item in Model)
+            {
+
+                if (i < 5)
+                {
+
+                    <div class="productSuggestionImageContainer">
+                        @{  String path = "~/Content/Images/";
+                            path = @path + @Html.DisplayFor(modelItem => item.Image);
+                        }
+
+                        <a href="@Url.Action("Details", "Products", new { id = @item.ArticleID })">
+                            <img src="@Url.Content(@path)" alt="bild" class="productSuggestionImage" />
+                        </a>
+                        <p>
+                            @item.ArticleName
+                        </p>
+                    </div>
+                    i++;
+                }
+            }
+
+        }
+    </div>
+</div>
+<hr />
+

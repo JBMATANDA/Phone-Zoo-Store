@@ -1,0 +1,81 @@
+﻿@using System.Xml.Schema
+@using WebbShop.Models.DataContexts.Cart
+@using WebbShop.Models.Entities
+@model IEnumerable<WebbShop.Models.Entities.CartItem>
+
+
+@{
+    ViewBag.Title = "ShoppingCart";
+}
+
+<h2>ShoppingCart</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Product.ArticleID)
+        </th>
+        
+        <th>
+            @Html.DisplayNameFor(model => model.Product.ArticleName)
+        </th>
+        
+        <th>
+            @Html.DisplayNameFor(model => model.Product.Price)
+        </th>
+
+        <th>
+        @Html.DisplayNameFor(model => model.Quantity)
+
+        </th>
+    </tr>
+    @{
+        double total = 0.0;
+        if (Session["Cart"] != null)
+        {
+
+            foreach (var item in Model)
+            {
+                <tr>
+                    <th>
+                        @item.Product.ArticleID
+                    </th>
+                    <th>
+                        @Html.ActionLink(@item.Product.ArticleName, "Details", "Products", new {id = item.Product.ArticleID}, null)
+                    </th>
+                    <th>
+                        @{
+                            double taxIncluded = item.Product.Price * 1.25;
+                        }
+                        @taxIncluded.ToString("C")
+                    </th>
+                    <th>
+                        @item.Quantity
+                    </th>
+
+                    <th>
+                        @Html.ActionLink("Add", "AddToCart", "Products", new {id = @item.Product.ArticleID}, null)|
+                        @Html.ActionLink("Remove", "RemoveFromCart", "Products", new {id = @item.Product.ArticleID}, null)
+                    </th>
+                </tr>
+                total += (taxIncluded * item.Quantity);
+            }
+        }
+    }
+
+</table>
+
+<br />
+<br />
+
+<h3><strong>@total.ToString("C")</strong></h3>
+
+<br />
+<br />
+
+@{
+    
+  <a type="button" class="btn btn-primary btn-md" href="@Url.Action("Create","Checkout")">CHECKOUT</a>   
+    
+}

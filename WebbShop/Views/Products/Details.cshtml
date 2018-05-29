@@ -1,0 +1,50 @@
+﻿@using WebbShop.Models.Entities
+@model WebbShop.Models.Entities.Product
+
+
+@{
+    ViewBag.Title = "Details";
+    var data = (Product) ViewData["Product"];
+}
+
+        <div class="jumbotron" style="background-color: white">
+            <div class="row">
+                <div class="col-md-4">
+
+                    @{
+
+                        String path = String.Concat("~/Content/Images/", data.Image);
+                    }
+                    <img src="@Url.Content(path)" alt="Phone" width="400" height="400"/>
+
+                </div>
+
+                <div class="col-md-4" style="padding-left: 100px; width: auto">
+                    <h2>@data.ArticleName</h2> <br/><br/>
+                    @data.Description <br/><br/>
+                    @{
+                        double taxIncluded = data.Price * 1.25;
+                        <h3><strong>@taxIncluded.ToString("C")</strong>
+                        </h3>
+                    }
+
+                    <br/>
+                    <div>
+                        @if (data.Stock > 0)
+                        {
+                            <h4 style="color: green">In Stock</h4>
+                        }
+                        else
+                        {
+                            <h4 style="color: red">Out of Stock</h4>
+                        }
+                    </div>
+                    <div>
+                        @Html.ActionLink("Add To Cart", "AddToCart","Products",new{id = data.ArticleID},null)
+                    </div>
+                </div>
+            </div>
+        </div>
+   
+
+
